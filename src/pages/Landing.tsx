@@ -159,7 +159,7 @@ className="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-[#0206
       
 
       {/* Navbar */}
-<nav className="sticky top-0 z-[100] w-full border-b border-cyan-400/10 bg-[#020617]/95 backdrop-blur-3xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">        <div className="container mx-auto flex items-center justify-between px-6 py-5">
+<nav className="fixed top-0 z-[1000] w-full border-b border-cyan-400/10 bg-[#020617]/95 backdrop-blur-3xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">        <div className="container mx-auto flex items-center justify-between px-6 py-5">
           <div className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-2xl font-black text-transparent">
             PeerLearn
           </div>
