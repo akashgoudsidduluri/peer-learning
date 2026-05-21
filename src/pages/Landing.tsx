@@ -89,7 +89,11 @@ export default function Landing() {
 
   const [open, setOpen] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
+  
+=======
   const [streak, setStreak] = useState<number | null>(null);
+>>>>>>> upstream/main
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1800);
@@ -97,6 +101,8 @@ export default function Landing() {
     return () => clearTimeout(timer);
   }, []);
 
+<<<<<<< HEAD
+=======
   useEffect(() => {
     // Device-local daily streak using localStorage
     const KEY_STREAK = "pl_streak";
@@ -138,6 +144,7 @@ export default function Landing() {
       setStreak(0);
     }
   }, []);
+>>>>>>> upstream/main
 
   if (loading) {
     return (
@@ -716,13 +723,13 @@ export default function Landing() {
           </div>
 
           <div className="flex gap-8 text-slate-300">
-            <a href="#" className="transition hover:text-cyan-400">
+            <a href="#features" className="transition hover:text-cyan-400">
               Features
             </a>
-            <a href="#" className="transition hover:text-cyan-400">
+            <a href="#community" className="transition hover:text-cyan-400">
               Communities
             </a>
-            <a href="#" className="transition hover:text-cyan-400">
+            <a href="#faq" className="transition hover:text-cyan-400">
               FAQ
             </a>
           </div>
