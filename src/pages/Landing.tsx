@@ -419,7 +419,7 @@ const scrollToTop = () => {
           <motion.div
             animate={{ y: [0, 12, 0] }}
             transition={{ duration: 5, repeat: Infinity }}
-            className="absolute bottom-10 right-0 rounded-3xl border border-white/10 bg-white/10 p-5 backdrop-blur-2xl"
+            className="absolute bottom-12 right-4 z-20 max-w-[min(17rem,calc(100%-2rem))] rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur-2xl sm:bottom-10 sm:right-8 sm:p-5 lg:right-6 xl:right-8"
           >
             <div className="flex items-center gap-3">
               <Brain className="text-cyan-400" />

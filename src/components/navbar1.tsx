@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Logo from "@/components/Logo";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -9,13 +8,10 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/10">
       <div className="container flex justify-between items-center px-4 sm:px-6 py-3">
-        
         {/* Logo */}
         <Link to="/" className="text-lg sm:text-xl font-bold text-emerald-400">
           PeerLearn
         </Link>
-      </div>
-      
 
         {/* Desktop Links */}
         <div className="hidden md:flex gap-6 text-sm text-emerald-200">
