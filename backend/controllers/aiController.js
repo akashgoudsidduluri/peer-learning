@@ -19,7 +19,7 @@ export const askAI = async (req, res) => {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "openai/gpt-4",
+          model: "openai/gpt-4o-mini",
           messages: [
             {
               role: "system",
@@ -78,7 +78,7 @@ export const generateSessionSummary = async (req, res) => {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "openai/gpt-4",
+          model: "openai/gpt-4o-mini",
           messages: [
             {
               role: "system",
