@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 dotenv.config(); // must be first
+import { env } from "./config.js";
 import authRoutes from "./routers/authRoutes.js";
 import chatRoutes from "./routers/chatRoutes.js";
 import aiRoutes from "./routers/aiRoutes.js";
@@ -19,9 +20,9 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-const PORT = process.env.PORT || 5000;
+const PORT = env.PORT || 5000;
 
-const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+const mongoUri = env.MONGO_URI || env.MONGODB_URI;
 if (mongoUri) {
   mongoose
     .connect(mongoUri)
@@ -41,17 +42,9 @@ app.use("/api", chatRoutes);
 // Global Error Handler (must be the last middleware)
 app.use(errorHandler);
 
-if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
-  console.log("✅ Supabase configured successfully");
-} else {
-  console.warn("⚠️  Supabase environment variables missing");
-}
-
-if (process.env.OPENROUTER_API_KEY) {
-  console.log("✅ OpenRouter AI configured successfully");
-} else {
-  console.warn("⚠️  OpenRouter API key missing");
-}
+console.log("SUPABASE_URL:", env.SUPABASE_URL);
+console.log("SUPABASE_ANON_KEY:", env.SUPABASE_ANON_KEY?.slice(0, 15) + "...");
+console.log("OPENROUTER_API_KEY:", env.OPENROUTER_API_KEY?.slice(0, 10) + "...");
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);

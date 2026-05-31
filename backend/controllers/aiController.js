@@ -1,4 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { env } from "../config.js";
 
 export const askAI = asyncHandler(async (req, res) => {
   const { question } = req.body;
@@ -9,7 +10,7 @@ export const askAI = asyncHandler(async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
       },
       body: JSON.stringify({
         model: "openai/gpt-4o-mini",
@@ -56,7 +57,7 @@ export const generateSessionSummary = asyncHandler(async (req, res) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
       },
       body: JSON.stringify({
         model: "openai/gpt-4o-mini",
