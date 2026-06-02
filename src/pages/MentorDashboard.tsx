@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/useAuth";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SessionCard from "@/components/SessionCard";
+import { MentorshipMilestones } from "@/components/mentorship/MentorshipMilestones";
 
 const MentorDashboard = () => {
   const { user, loading } = useAuth();
@@ -111,6 +112,12 @@ const MentorDashboard = () => {
             </p>
           )}
         </section>
+
+        {user && (
+          <section className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <MentorshipMilestones userId={user.id} isMentor={true} />
+          </section>
+        )}
       </div>
     </div>
   );

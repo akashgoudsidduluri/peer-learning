@@ -3,6 +3,8 @@ import { useAuth } from "@/contexts/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { API_BASE_URL } from "@/config/api";
 import RecommendedPartners from "@/components/recommendations/RecommendedPartners";
+import { MentorshipMilestones } from "@/components/mentorship/MentorshipMilestones";
+
 const LearnerDashboard = () => {
   const { user } = useAuth();
   const { currentMode } = useRole();
@@ -60,6 +62,12 @@ const LearnerDashboard = () => {
             one.
           </p>
         </section>
+
+        {user && (
+          <section className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+            <MentorshipMilestones userId={user.id} isMentor={false} />
+          </section>
+        )}
                 <section>
           {loadingPartners ? (
             <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
