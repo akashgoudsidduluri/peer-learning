@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/useAuth";
 import {
@@ -104,7 +104,7 @@ export default function Canvas({ roomId }: Props) {
     }
   };
 
-  const replayCanvas = () => {
+  const replayCanvas = useCallback(() => {
     const ctx = getContext();
 
     if (!ctx) return;
@@ -114,7 +114,7 @@ export default function Canvas({ roomId }: Props) {
     for (const event of strokesRef.current) {
       drawEvent(ctx, event);
     }
-  };
+  }, []);
 
   const persistEvent = async (event: WhiteboardEvent) => {
     await supabase.from("whiteboard_events" as any).insert({
@@ -208,7 +208,7 @@ export default function Canvas({ roomId }: Props) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [roomId]);
+  }, [roomId, user?.id, replayCanvas]);
 
   const getCoordinates = (
     e: React.MouseEvent<HTMLCanvasElement>
