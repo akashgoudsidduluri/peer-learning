@@ -420,29 +420,23 @@ const Messages = ({ user }: MessagesProps) => {
           schema: "public",
           table: "profiles",
         },
-        () => {
-          void supabase
-            .from("profiles")
-            .select("*")
-            .neq("id", currentUserId)
-            .order("name", { ascending: true })
-            .limit(100)
-            .then(({ data: profileData }) => {
-              void supabase
-                .from("users")
-                .select("*")
-                .neq("id", currentUserId)
-                .order("name", { ascending: true })
-                .limit(100)
-                .then(({ data: userData }) => {
-                  setProfiles(
-                    mergeProfiles(
-                      (profileData ?? []).map((row) => row as ProfileSummary),
-                      (userData ?? []) as UserRow[]
-                    )
-                  );
-                });
+        (payload) => {
+          if (payload.new && payload.new.id && payload.new.id !== currentUserId) {
+            setProfiles((prev) => {
+              const updated = normalizeProfile(payload.new as ProfileRow);
+              const index = prev.findIndex((p) => p.id === updated.id);
+              
+              if (index === -1) {
+                const newProfiles = [...prev, updated];
+                newProfiles.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+                return newProfiles;
+              }
+              
+              const newProfiles = [...prev];
+              newProfiles[index] = { ...newProfiles[index], ...updated };
+              return newProfiles;
             });
+          }
         }
       )
       .subscribe();
@@ -462,10 +456,11 @@ const Messages = ({ user }: MessagesProps) => {
         .from("messages")
         .select("id,sender_id,receiver_id,content,text,message,created_at,read_at")
         .or(`sender_id.eq.${currentUserId},receiver_id.eq.${currentUserId}`)
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: false })
+        .limit(100);
 
       if (!error && data) {
-        setMessages(data as MessageRow[]);
+        setMessages((data as MessageRow[]).reverse());
       } else if (error) {
         console.error("Failed to load messages:", error.message);
       }
@@ -581,8 +576,8 @@ const Messages = ({ user }: MessagesProps) => {
 
     if (!content || !selectedUser || !currentUserId) return;
 
-    if (content.length > 2000) {
-      console.error("Message exceeds the 2000 character limit.");
+    if (content.length > 1000) {
+      console.error("Message exceeds the 1000 character limit.");
       return;
     }
 
@@ -905,12 +900,17 @@ const Messages = ({ user }: MessagesProps) => {
                     }}
                     placeholder={`Message ${selectedDisplayName}...`}
                     className="min-h-[72px] w-full resize-none bg-transparent px-2 py-1 text-sm outline-none placeholder:text-slate-500"
-                    maxLength={2000}
+                  maxLength={1000}
                   />
 
-                  <div className="mt-3 flex items-center justify-between gap-3">
-                    <p className="text-xs text-slate-500">Press Enter to send, Shift+Enter for a new line.</p>
-
+                 <div className="mt-3 flex items-center justify-between gap-3">
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs text-slate-500">Press Enter to send, Shift+Enter for a new line.</p>
+                      <p className={`text-xs ${newMessage.length > 900 ? newMessage.length > 1000 ? "text-red-400" : "text-yellow-400" : "text-slate-500"}`}>
+                        {newMessage.length}/1000 characters
+                        {newMessage.length > 1000 && " — Message too long!"}
+                      </p>
+                    </div>
                     <button
                       type="button"
                       onClick={() => void sendMessage()}
