@@ -38,9 +38,17 @@ export const sendEmail = async (email, url) => {
     throw new Error("sendEmail: the recipient email address is not valid.");
   }
 
-  if (!isSafeUrl(url)) {
+  // Validate URL matches configured frontend domain to prevent URL injection
+  const frontendUrl = process.env.PASSWORD_RESET_BASE_URL || process.env.FRONTEND_URL;
+  if (!frontendUrl) {
     throw new Error(
-      "sendEmail: the reset URL must be a valid http or https URL."
+      "sendEmail: PASSWORD_RESET_BASE_URL or FRONTEND_URL environment variable must be set."
+    );
+  }
+
+  if (!isSafeUrl(url, frontendUrl)) {
+    throw new Error(
+      "sendEmail: reset URL must be from the configured frontend domain."
     );
   }
 
